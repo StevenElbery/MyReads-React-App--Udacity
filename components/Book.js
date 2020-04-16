@@ -6,10 +6,10 @@ class Book extends Component {
         this.state = { shelf: 'none' };
     }
 
-    changeBookShelf (value) {
-        const { updateBookShelf } = this.props;
-        updateBookShelf(this.props, value);
-        //Local state set to update instantly on the search page without a refresh HOCs
+    modifyBookShelf (value) {
+        const { reviseBookShelf } = this.props;
+        reviseBookShelf(this.props, value);
+        //Current state set to update automatically from the search view - no refresh needed
         this.setState({ shelf: value });
     };
 
@@ -17,6 +17,7 @@ class Book extends Component {
         const { shelf } = this.props;
         this.setState({ shelf });
     };
+
 
     render () {
         const { title, authors, imageLinks } = this.props;
@@ -26,22 +27,22 @@ class Book extends Component {
         return(
             <div className="book">
                 <div className="book-top">
-                    <div className="book-cover" style={ { width: 128, height: 193, backgroundImage: `url("${ thumbnail }")` } }>
+                    <div className="book-coverpage" style={ { width: 128, height: 193, backgroundImage: `url("${ thumbnail }")` } }>
                     </div>
-                    <div className="book-shelf-changer">
+                    <div className="bookshelf-switch">
                         <select
                             value={ shelf }
-                            onChange={ (event) => this.changeBookShelf(event.target.value) }
+                            onChange={ (event) => this.modifyBookShelf(event.target.value) }
                         >
-                            <option value="none" disabled>Move to...</option>
+                            <option value="none" disabled>Select new category:</option>
                             <option value="currentlyReading">Currently Reading</option>
                             <option value="wantToRead">Want to Read</option>
                             <option value="read">Read</option>
-                            <option value="none">None</option>
+                            <option value="none">Pending</option>
                         </select>
                     </div>
                 </div>
-                <div className="book-title">{ title }</div>
+                <div className="book-titles">{ title }</div>
                 <div className="book-authors">{ authors }</div>
             </div>
         );
