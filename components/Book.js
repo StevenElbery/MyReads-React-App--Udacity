@@ -26,7 +26,7 @@ class Book extends Component {
 
         return(
             <div className="book">
-                <div className="book-top">
+                <div className="book-banner">
                     <div className="book-coverpage" style={ { width: 128, height: 193, backgroundImage: `url("${ thumbnail }")` } }>
                     </div>
                     <div className="bookshelf-switch">
