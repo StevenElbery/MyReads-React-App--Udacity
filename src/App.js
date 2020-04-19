@@ -1,11 +1,12 @@
 import React from 'react';
-import { Route } from 'react-router-dom';
+//s import { Route } from '/react-router-dom';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import './App.css';
 
-import BookShelves from './components/bookshelves';
-import Search from './components/search';
+import BookShelves from './components/BookShelves';
+import Search from './components/Search';
 
-import * as BooksAPI from './utilities/BooksAPI';
+import * as BooksAPI from './BooksAPI';
 
 class MyReadsApp extends React.Component {
   constructor () {
@@ -20,22 +21,22 @@ class MyReadsApp extends React.Component {
    * @param {string} id
    * @param {string} shelf
    */
-  reviseBookShelf = (book, reviseddShelf) => {
+  reviseBookShelf = (book, revisedShelf) => {
     const { books } = this.state;
 
     const bookIndex = books.findIndex((key) => {
       return key.id === book.id;
     });
 
-    let stateBooks = Object.assign([], books);
+    let currentStateBooks = Object.assign([], books);
 
     if (bookIndex === -1) {
       const newBook = Object.assign({}, book);
       newBook.shelf = revisedShelf;
-      currentstateBooks.push(newBook);
+      currentStateBooks.push(newBook);
     } else {
       currentStateBooks[bookIndex] = Object.assign({}, currentStateBooks[bookIndex]);
-      currentStateBooks[bookIndex].shelf = revisedshelf;
+      currentStateBooks[bookIndex].shelf = revisedShelf;
     }
 
     BooksAPI.update(book, revisedShelf).then(
@@ -52,6 +53,7 @@ class MyReadsApp extends React.Component {
 
     return (
       <div className="app">
+        <Router>
         <Route path="/search" render={ () => (
           //Search View
           <Search
@@ -59,13 +61,15 @@ class MyReadsApp extends React.Component {
             reviseBookShelf={ this.revisedBookShelf }
           />
         ) } />
+
         <Route exact path="/" render={ () => (
           //Library  View
-          <Library
+          <BookShelves
             books={ books }
            reviseBookShelf={ this.reviseBookShelf }
           />
         ) } />
+        </Router>
       </div>
     );
   }
